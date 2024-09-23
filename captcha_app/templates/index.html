@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAPTCHA Form</title>
+</head>
+<body>
+    <h1>Enter the CAPTCHA</h1>
+    
+    <form method="POST" action="">
+        {% csrf_token %}
+
+        <!-- Display the CAPTCHA image -->
+        <img src="{% url 'captcha_image' %}" alt="CAPTCHA" id="captchaImage">
+        <br><br>
+
+        <label for="captcha">Enter CAPTCHA:</label>
+        <input type="text" id="captcha" name="captcha">
+        
+        <br><br>
+
+        <!-- Display the error message if CAPTCHA is incorrect -->
+        {% if error_message %}
+            <p style="color: red;">{{ error_message }}</p>
+        {% endif %}
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- Button to reload the CAPTCHA image -->
+    <button onclick="reloadCaptcha()">Reload CAPTCHA</button>
+
+    <script>
+        function reloadCaptcha() {
+            document.getElementById('captchaImage').src = "{% url 'captcha_image' %}?" + Math.random();
+        }
+    </script>
+</body>
+</html>
